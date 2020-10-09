@@ -1,0 +1,13 @@
+[authentication]
+ConsumerKey = xxxxxxxxxxxxxxxxxxxx
+ConsumerSecret = xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+AccessToken = xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+AccessTokenSecret = xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+
+# Joplin token (see preferences Web Clipper)
+token = xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+
+# Joplin notebook (folder_ID) into which new notes are posted
+parent_folder = 4a5daf15f3cd4353a9e63bcaa74f8930
+
+joplin_url = http://localhost:41184
