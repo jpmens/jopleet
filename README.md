@@ -32,3 +32,18 @@
 
 6. Verify that the Markdown template which will be written to each note is the way you want it to be; change accordingly.
 
+7. Create the Python environment
+
+   ```console
+   $ python3 -mvenv env.v3
+   $ env.v3/bin/pip install -r requirements
+
+8. Test it
+
+   ```console
+   $ env.v3/bin/python ./jopleet.py https://twitter.com/jpmens/status/1085859260783837185
+   ```
+
+9. The result ought to be a note in Joplin which looks like this
+
+   ![joplin note](rabbit-6976.png)
