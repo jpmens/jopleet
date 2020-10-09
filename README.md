@@ -1,4 +1,6 @@
+# jopleet
 
+This program uses the [Joplin API](https://github.com/laurent22/joplin/blob/master/readme/api.md) and [Tweepy](http://docs.tweepy.org/en/latest/) to read individual Twitter status URLs, grab their text and images, and store them into new notes in a Joplin notebook.
 
 1. Create a new notebook in Joplin into which _jopleet_ will store all tweets. We also call this a _folder_ -- in Joplin notebooks are called _folders_.
 
