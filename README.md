@@ -46,7 +46,7 @@ This program uses the [Joplin API](https://github.com/laurent22/joplin/blob/mast
 
    ```console
    $ python3 -mvenv env.v3
-   $ env.v3/bin/pip install -r requirements
+   $ env.v3/bin/pip install -r requirements.txt
 
 9. Test it
 
