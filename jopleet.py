@@ -74,7 +74,7 @@ def new_note(params):
     joplin_url = "{0}/notes?token={1}".format(jurl, token)
 
     data = {
-        "parent_folder" : parent_folder,
+        "parent_id"     : parent_folder,
         "is_todo"       : 0,
         "title"         : trunc(params["text"]),
         "body"          : params["body"],
