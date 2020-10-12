@@ -5,7 +5,7 @@
 foldername="$1"
 
 # try to obtain token from jopleet.config
-
+# the field separator needs care; [= ] doesn't work on all platforms
 token="$(awk -F ' = '  '/^token/ { print $2 }' jopleet.config)"
 
 curl -sf http://localhost:41184/folders?token=${token} \

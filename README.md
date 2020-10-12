@@ -56,5 +56,5 @@ This program uses the [Joplin API](https://github.com/laurent22/joplin/blob/mast
 
 10. The result ought to be a note in Joplin which looks like this
 
-   ![joplin note](rabbit-6976.png)
+   ![joplin note](assets/example.png)
 
