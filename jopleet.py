@@ -11,6 +11,7 @@ import os
 import sys
 import json
 import requests
+import re
 
 jurl = None
 token = None
@@ -96,6 +97,8 @@ def new_note(params):
 def store(api, url, status):
 
     status_id = status.id
+    # remove link to tweet in body
+    s = re.sub('https://t\.co/[a-zA-Z0-9]+$', '', status.full_text)
     images = ""
     params = {
         'url'           : url,
@@ -104,7 +107,7 @@ def store(api, url, status):
         'name'          : status.user.name,
         'screen_name'   : status.user.screen_name,
         'profile_img'   : status.user.profile_image_url_https,
-        'text'          : status.full_text,
+        'text'          : s,
         'images'        : images,
     }
 
@@ -132,6 +135,7 @@ def store(api, url, status):
                     images = images + f'![{filename}](:/{resource_id})\n\n'
 
     params['images'] = images
+
     params["body"] = t.substitute(params)
 
     new_note(params)
