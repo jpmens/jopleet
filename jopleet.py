@@ -88,11 +88,14 @@ def new_note(params):
         data["longitude"] = str(params["lon"])
         data["altitude"] = "0.0000"
 
-    print(json.dumps(data, indent=4))
+    ## print(json.dumps(data, indent=4))
 
     r = requests.post(joplin_url, data=json.dumps(data), headers=headers)
-    if r.status_code == 200:
-        print(r.text)
+    if r.status_code != 200:
+        print("status_code: {0} {1}".format(r.status_code, r.text))
+    else:
+        j = json.loads(r.text)
+        print("ID: {0}, {1}".format(j.get("id", "unknown"), j.get("title", "unknown")))
 
 def store(api, url, status):
 
