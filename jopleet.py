@@ -23,6 +23,7 @@ t = Template("""$text
 
 $images
 
+* * *
 $name (@$screen_name)
 [$date]($url)
 """)
