@@ -130,7 +130,7 @@ def new_note(params):
         note_id = j.get("id")
         print("ID: {0}, {1}".format(note_id, j.get("title", "unknown")))
 
-        if "tags" in params:
+        if "tags" in params and params["tags"] is not None:
             taglist = get_all_tags()
             for tag in params["tags"].split(','):
                 if tag in taglist:
