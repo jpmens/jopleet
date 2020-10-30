@@ -12,6 +12,7 @@ import sys
 import json
 import requests
 import re
+import getopt
 
 jurl = None
 token = None
@@ -27,6 +28,36 @@ $images
 $name (@$screen_name)
 [$date]($url)
 """)
+
+def get_all_tags():
+    taglist = {}
+
+    joplin_url = "{0}/tags?token={1}".format(jurl, token)
+
+    r = requests.get(joplin_url)
+    if r.status_code == 200:
+        for t in r.json():
+            taglist[t['title']] = t['id']
+
+    return taglist
+
+def set_tag(tag_id, note_id):
+    """ post a note to the tag id; it suffices if note has "id" in it """
+
+    joplin_url = "{0}/tags/{1}/notes?token={1}".format(jurl, tag_id, token)
+
+    headers = {
+        "Content-type" : "application/json",
+        "Accept" : "text/plain"
+    }
+
+    data = {
+        "id" : note_id,
+    }
+
+    r = requests.post(joplin_url, data=json.dumps(data), headers=headers)
+    if r.status_code != 200:
+        print("Cannot POST to tag {0} for note {1}: code={2} {3}".format(tag_id, note_id, r.status_code, r.text), file=sys.stderr)
 
 def upload_image(filename, url):
     """ url points to image in tweet; download the bytes and upload
@@ -96,9 +127,18 @@ def new_note(params):
         print("status_code: {0} {1}".format(r.status_code, r.text))
     else:
         j = json.loads(r.text)
-        print("ID: {0}, {1}".format(j.get("id", "unknown"), j.get("title", "unknown")))
+        note_id = j.get("id")
+        print("ID: {0}, {1}".format(note_id, j.get("title", "unknown")))
 
-def store(api, url, status):
+        if "tags" in params:
+            taglist = get_all_tags()
+            for tag in params["tags"].split(','):
+                if tag in taglist:
+                    tag_id = taglist[tag]
+                    set_tag(tag_id, note_id)
+
+
+def store(api, url, status, tags=None):
 
     status_id = status.id
     # remove link to tweet in body
@@ -113,6 +153,7 @@ def store(api, url, status):
         'profile_img'   : status.user.profile_image_url_https,
         'text'          : s,
         'images'        : images,
+        'tags'          : tags,
     }
 
     # Coordinates do not yet work, due to a bug I just submitted
@@ -146,6 +187,17 @@ def store(api, url, status):
 
 if __name__ == '__main__':
 
+    tags = None
+    try:
+        opts, args = getopt.getopt(sys.argv[1:], "t:")
+    except getopt.GetoptError:
+        print("Usage: {0} [-t tags] url [url ...]".format(sys.argv[0]))
+        sys.exit(2)
+
+    for opt, arg in opts:
+        if opt == "-t":
+            tags = arg
+
     config = os.path.join(
         os.path.dirname(os.path.realpath(__file__)),
         "jopleet.config")
@@ -166,9 +218,9 @@ if __name__ == '__main__':
     auth.set_access_token(AccessToken, AccessTokenSecret)
     api = tweepy.API(auth)
 
-    for url in sys.argv[1:]:
+    for url in args:
         status_id = url.split('/')[-1]
 
         status = api.get_status(status_id, include_entities=True, tweet_mode='extended')
-        store(api, url, status)
+        store(api, url, status, tags)
 

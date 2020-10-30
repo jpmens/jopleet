@@ -58,3 +58,6 @@ This program uses the [Joplin API](https://github.com/laurent22/joplin/blob/mast
 
    ![joplin note](assets/example.png)
 
+11. Options
+    option "-t" accepts a comma-separated list of **existing** tags which will be associated with the new note.
+
