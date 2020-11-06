@@ -156,8 +156,9 @@ def store(api, url, status, tags=None):
         'tags'          : tags,
     }
 
-    # Coordinates do not yet work, due to a bug I just submitted
+    # Coordinates now work; the bug I submitted in October 2020
     # https://github.com/laurent22/joplin/issues/3884
+    # has been fixed.
 
     if status.coordinates is not None:
         if "coordinates" in status.coordinates:
