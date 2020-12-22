@@ -6,6 +6,7 @@
 
 import configparser
 from string import Template
+from bs4 import BeautifulSoup
 import tweepy
 import os
 import sys
@@ -128,7 +129,8 @@ def new_note(params):
     else:
         j = json.loads(r.text)
         note_id = j.get("id")
-        print("ID: {0}, {1}".format(note_id, j.get("title", "unknown")))
+        note_title = j.get("title", "unknown")
+        print("ID: {0}, {1}".format(note_id, note_title))
 
         if "tags" in params and params["tags"] is not None:
             taglist = get_all_tags()
@@ -143,6 +145,7 @@ def store(api, url, status, tags=None):
     status_id = status.id
     # remove link to tweet in body
     s = re.sub('https://t\.co/[a-zA-Z0-9]+$', '', status.full_text)
+    soup = BeautifulSoup(s, features="html.parser")
     images = ""
     params = {
         'url'           : url,
@@ -151,7 +154,7 @@ def store(api, url, status, tags=None):
         'name'          : status.user.name,
         'screen_name'   : status.user.screen_name,
         'profile_img'   : status.user.profile_image_url_https,
-        'text'          : s,
+        'text'          : soup.get_text(),
         'images'        : images,
         'tags'          : tags,
     }
