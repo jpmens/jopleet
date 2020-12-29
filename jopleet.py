@@ -37,7 +37,9 @@ def get_all_tags():
 
     r = requests.get(joplin_url)
     if r.status_code == 200:
-        for t in r.json():
+        # print(json.dumps(r.json(), indent=4))
+        items = r.json()["items"]
+        for t in items:
             taglist[t['title']] = t['id']
 
     return taglist
@@ -45,7 +47,7 @@ def get_all_tags():
 def set_tag(tag_id, note_id):
     """ post a note to the tag id; it suffices if note has "id" in it """
 
-    joplin_url = "{0}/tags/{1}/notes?token={1}".format(jurl, tag_id, token)
+    joplin_url = "{0}/tags/{1}/notes?token={2}".format(jurl, tag_id, token)
 
     headers = {
         "Content-type" : "application/json",
